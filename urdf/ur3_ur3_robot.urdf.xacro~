@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"
+       name="pizza_demo" >
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find pizza_demo)/urdf/common.gazebo.xacro" />
+
+  <!-- urdf -->
+  <xacro:include filename="$(find pizza_demo)/urdf/ur3.urdf.xacro" />
+<!--  <xacro:include filename="$(find pizza_demo)/urdf/ur3_2.urdf.xacro" />-->
+
+  <!-- ur3 arm : display the arm by setting prefix -->
+  <xacro:ur3_robot prefix="ur3_1_" reflect="-1" joint_limited="false"/>
+    
+
+<!-- rolling pin -->
+<xacro:include filename="$(find pizza_demo)/urdf/rolling_pin.urdf.xacro"/>
+<rolling_pin prefix="ur3_1_" />
+
+</robot>

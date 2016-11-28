@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+  Universal robot common bringup.  Starts ur driver node and robot state
+  publisher (translates joint positions to propper tfs).
+
+  Usage:
+    ur_common.launch robot_ip:=<value>
+-->
+
+<launch>
+  <!-- robot_ip: IP-address of the robot's socket-messaging server -->
+  <arg name="robot_ip"/>
+  <arg name="reverse_port" default="50001"/>
+  <arg name="limited"/>
+  <arg name="min_payload"/>
+  <arg name="max_payload"/>
+  <arg name="prefix"/>
+  <arg name="prevent_programming"/>
+  
+  <!-- The max_velocity parameter is only used for debugging in the ur_3_10. It's not related to actual velocity limits -->
+  <arg name="max_velocity" default="10.0"/> <!-- [rad/s] -->
+  
+  <!-- copy the specified IP address to be consistant with ROS-Industrial spec.
+  NOTE: The ip address is actually passed to the driver on the command line -->
+  <param name="/robot_ip_address" type="str" value="$(arg robot_ip)"/>
+  <param name="/robot_reverse_port" type="int" value="$(arg reverse_port)"/>
+  
+  
+  <!-- driver -->
+  <node name="driver_ur3_1" pkg="ur_3_3" type="driver_ur3_1.py" args="$(arg robot_ip) $(arg reverse_port)" output="screen">
+    <param name="min_payload" type="double" value="$(arg min_payload)"/>
+    <param name="max_payload" type="double" value="$(arg max_payload)"/>
+    <param name="max_velocity" type="double" value="$(arg max_velocity)"/>
+    <param name="prefix" type="string" value="$(arg prefix)"/>
+    <param name="prevent_programming" type="bool" value="$(arg prevent_programming)"/>
+    <param name="limited"  value="$(arg limited)"/>
+  </node>
+   
+</launch>

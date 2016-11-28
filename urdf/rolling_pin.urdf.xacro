@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<robot name="rolling_pin" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <property name="pi" value="3.14159265"/>
+
+    <xacro:macro name="rolling_pin" params="prefix">
+        <!-- opto force sensor  -->
+        <link name="${prefix}force_sensor_link">
+            <visual>
+                <geometry>
+                    <mesh filename="package://pizza_demo/meshes/ur3/visual/force_sensor.dae"/>
+                </geometry>
+                <material name="LightGrey">
+                    <color rgba="0.7 0.7 0.7 1.0"/>
+                </material>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://pizza_demo/meshes/ur3/collision/force_sensor.stl"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="${prefix}force_sensor_joint" type="fixed">
+            <parent link="${prefix}tool0"/>
+            <child link="${prefix}force_sensor_link"/>
+            <origin xyz="0.0 0.002 -0.0015" rpy="0.0 0.0 ${pi/2}"/>
+            <axis xyz="0 0 1"/>
+        </joint>
+
+          <!-- rolling pin  -->
+        <link name="${prefix}rolling_pin_link">
+            <visual>
+                <geometry>
+                    <mesh filename="package://pizza_demo/meshes/ur3/visual/rolling_pin.dae"/>
+                </geometry>
+                <material name="LightGrey">
+                    <color rgba="0.7 0.7 0.7 1.0"/>
+                </material>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://pizza_demo/meshes/ur3/collision/rolling_pin.stl"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="${prefix}rolling_pin_joint" type="fixed">
+            <parent link="${prefix}force_sensor_link"/>
+            <child link="${prefix}rolling_pin_link"/>
+            <origin xyz="0.0 0.00 0.030" rpy="0.0 0.0 ${pi}"/>
+            <axis xyz="0 1 0"/>
+        </joint>
+
+    </xacro:macro>
+</robot>

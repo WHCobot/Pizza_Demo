@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+  Universal robot ur3 launch.  Loads ur3 robot description (see ur_common.launch
+  for more info)
+
+  Usage:
+    ur3_bringup.launch robot_ip:=<value>
+-->
+<launch>
+  
+  <!-- robot_ip: IP-address of the robot's socket-messaging server -->
+  <arg name="robot_ip"/>
+  <arg name="reverse_port" default="50001"/>
+  <arg name="limited" default="false"/>
+  <arg name="min_payload"  default="0.0"/>
+  <arg name="max_payload"  default="3.0"/>
+  <arg name="prefix"  default="ur3_1_"/>
+  <arg name="prevent_programming" default="True"/>
+
+<node name="ur3_1_robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+    <remap from="joint_states" to="ur3_1/joint_states" />
+</node>
+
+  <!-- ur common -->
+  <include file="$(find ur_3_3)/launch/ur3_1_common.launch">
+    <arg name="robot_ip" value="$(arg robot_ip)"/>
+    <arg name="reverse_port" value="$(arg reverse_port)"/>
+    <arg name="limited"  value="$(arg limited)"/>
+    <arg name="prefix"  value="$(arg prefix)"/>
+    <arg name="prevent_programming"  value="$(arg prevent_programming)"/>
+    <arg name="min_payload"  value="$(arg min_payload)"/>
+    <arg name="max_payload"  value="$(arg max_payload)"/>
+  </include>
+
+</launch>
